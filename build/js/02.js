@@ -47,6 +47,83 @@ moreMixed = myTuple;
 myTuple[1] = 42;
 // Objects
 let myObj;
-// it is re-assignable because array is stil type object in JavaScript
+// it is re-assignable because array is still type object in JavaScript
 myObj = [];
 console.log(typeof myObj); // object
+myObj = pokemon;
+myObj = {};
+const exampleObj = {
+    prop1: "Baz",
+    prop2: true,
+};
+// Type 'number' is not assignable to type 'string'.ts(2322)
+// exampleObj.prop1 = 1;
+exampleObj.prop1 = "Bob";
+// Type 'number' is not assignable to type 'boolean'.ts(2322)
+// exampleObj.prop2 = 99;
+exampleObj.prop2 = false;
+// Interface (can use when defining a class etc)
+// interface Pokemon {
+//   name: string;
+//   evolves: boolean;
+//   types: string[];
+//   isCute?: true; // boolean | undefined
+// }
+let bulbasaur = {
+    name: "Bulbasaur",
+    evolves: true,
+    types: ["Grass"],
+};
+let squirtle = {
+    name: "Squirtle",
+    evolves: true,
+    types: ["Water"],
+    isCute: true,
+};
+// Property 'generation' does not exist on type 'Pokemon'.ts(2339)
+// bulbasaur.generation = 1;
+// we can use the Type Alias
+const greetPokemon = (pokemon) => {
+    console.log(`Hello ${pokemon.name}!`);
+};
+const charmander = {
+    evolves: true,
+    types: ["Fire"],
+};
+const greetPokemon2 = (pokemon) => {
+    // the name is optional above but typescript doesn't realise that
+    // if we try to use a method on it, it will complain:
+    // 'pokemon.name' is possibly 'undefined'.ts(18048)
+    // console.log(`Hello ${pokemon.name.toUpperCase()}!`);
+    // we can use "Narrowing":
+    if (pokemon.name) {
+        console.log(`Hello ${pokemon.name.toUpperCase()}!`);
+    }
+    console.log(`Hello!`);
+};
+console.log(greetPokemon2(charmander));
+// Hello!
+// Enums
+// Enums are one of the few features TypeScript has which is not a type-level extension of JavaScript.
+// Enums allow a developer to define a set of named constants. Using enums can make it easier to document intent, or create a set of distinct cases. TypeScript provides both numeric and string-based enums.
+var Grade;
+(function (Grade) {
+    Grade[Grade["U"] = 0] = "U";
+    Grade[Grade["D"] = 1] = "D";
+    Grade[Grade["C"] = 2] = "C";
+    Grade[Grade["B"] = 3] = "B";
+    Grade[Grade["A"] = 4] = "A";
+})(Grade || (Grade = {}));
+console.log(Grade.U); // 0
+// they are enumerated and start at position 0
+// you can start them at a specific number
+var Grade2;
+(function (Grade2) {
+    Grade2[Grade2["U"] = 1] = "U";
+    Grade2[Grade2["D"] = 2] = "D";
+    Grade2[Grade2["C"] = 3] = "C";
+    Grade2[Grade2["B"] = 4] = "B";
+    Grade2[Grade2["A"] = 5] = "A";
+})(Grade2 || (Grade2 = {}));
+console.log(Grade2.U); // 1
+console.log(Grade2.B); // 4
