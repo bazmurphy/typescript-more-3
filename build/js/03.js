@@ -107,3 +107,34 @@ const infinite2 = () => {
         }
     }
 };
+// when could this never type be useful?
+// Use of the NEVER Type
+const numberOrString2 = (value) => {
+    // Function lacks ending return statement and return type does not include 'undefined'.ts(2366)
+    // we use Type Guards to check the value
+    if (typeof value === "string") {
+        return "string";
+    }
+    if (typeof value === "number") {
+        return "number";
+    }
+    // we can't just return undefined like in JS
+    // return;
+    // Type 'undefined' is not assignable to type 'string'.ts(2322)
+    // but we can return an error
+    return createError("This should never happen!");
+};
+// if we use Type Guards repeatedly, we should encapsulate them and re-use them
+const isNumber = (value) => {
+    return typeof value === "number" ? true : false;
+};
+const isString = (value) => {
+    return typeof value === "string" ? true : false;
+};
+const numberOrString3 = (value) => {
+    if (isString(value))
+        return "string";
+    if (isNumber(value))
+        return "number";
+    return createError("This should never happen");
+};
